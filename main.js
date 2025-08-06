@@ -55,6 +55,9 @@ function renderCopa(nombre) {
     <table><tr><th>Fecha</th><th>1º</th><th>2º</th><th>3º</th></tr>${resultadosHTML}</table>
   `;
   renderGraficos(ranking);
+  const { posiciones, fechas } = calcularPosicionesDiarias(copa.resultados);
+  const jugadores = Object.keys(posiciones);
+  renderSelectorDeJugadores(jugadores, posiciones, fechas);
 }
 
 document.getElementById("copaSelector").innerHTML = Object.keys(datos)
