@@ -3,22 +3,26 @@ const datos = {
     resultados: [
       { fecha: "15/07", primero: "Michi", segundo: "Agus", tercero: "Guli" },
       { fecha: "16/07", primero: "Nahuel", segundo: "Guli", tercero: "Sandra" },
-      { fecha: "17/07", primero: "Nahuel", segundo: "Rodri", tercero: "Guli" }
-      { fecha: "18/07", primero: "Vero", segundo: "Sandra", tercero: "Guli" }
-      { fecha: "21/07", primero: "Guli", segundo: "Rodri", tercero: "Lucia" }
-      { fecha: "22/07", primero: "Nahuel", segundo: "Michi", tercero: "Agus" }
-      { fecha: "23/07", primero: "Vero", segundo: "Rodri", tercero: "Lucia" }
-      { fecha: "24/07", primero: "Nahuel", segundo: "Fede", tercero: "Vero" }
-      { fecha: "25/07", primero: "Michi", segundo: "Anton", tercero: "Moni" }
-      { fecha: "28/07", primero: "Anton", segundo: "Vero", tercero: " Moni" }
-      { fecha: "29/07", primero: "Fede", segundo: "Rodri", tercero: "Alita" }
-      { fecha: "30/07", primero: "Michi", segundo: "Rodri", tercero: "Moni" }
-      { fecha: "31/07", primero: "Moni", segundo: "Alita", tercero: "Fede" }
+      { fecha: "17/07", primero: "Nahuel", segundo: "Rodri", tercero: "Guli" },
+      { fecha: "18/07", primero: "Vero", segundo: "Sandra", tercero: "Guli" },
+      { fecha: "21/07", primero: "Guli", segundo: "Rodri", tercero: "Lucia" },
+      { fecha: "22/07", primero: "Nahuel", segundo: "Michi", tercero: "Agus" },
+      { fecha: "23/07", primero: "Vero", segundo: "Rodri", tercero: "Lucia" },
+      { fecha: "24/07", primero: "Nahuel", segundo: "Fede", tercero: "Vero" },
+      { fecha: "25/07", primero: "Michi", segundo: "Anton", tercero: "Moni" },
+      { fecha: "28/07", primero: "Anton", segundo: "Vero", tercero: " Moni" },
+      { fecha: "29/07", primero: "Fede", segundo: "Rodri", tercero: "Alita" },
+      { fecha: "30/07", primero: "Michi", segundo: "Rodri", tercero: "Moni" },
+      { fecha: "31/07", primero: "Moni", segundo: "Alita", tercero: "Fede" },
       { fecha: "01/08", primero: "Michi", segundo: "Guli", tercero: "Anton" }
     ]
   },
   "Copa Apertura Agosto": {
-    resultados: []
+    resultados: [
+      { fecha: "04/08", primero: "Anton", segundo: "Vero", tercero: "Michi" },
+      { fecha: "05/08", primero: "Guli", segundo: "Anton", tercero: "Agus" },
+      { fecha: "06/08", primero: "Michi", segundo: "Guli", tercero: "Anton" }
+    ]
   }
 };
 
