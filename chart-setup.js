@@ -18,7 +18,8 @@ function renderGraficos(puntos) {
       }]
     }
   });
-  
+}
+
   function renderTrazabilidad(jugadores, posiciones, fechas) {
     const ctx = document.getElementById("graficoTrazabilidad").getContext("2d");
     if (window.trazabilidadChart) window.trazabilidadChart.destroy();
@@ -59,6 +60,4 @@ function renderGraficos(puntos) {
       }
     }
   });
-}
-
 }
