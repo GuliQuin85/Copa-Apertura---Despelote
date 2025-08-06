@@ -65,3 +65,70 @@ document.getElementById("copaSelector").addEventListener("change", e => {
 });
 
 renderCopa("Pretemporada Julio");
+
+function calcularPosicionesDiarias(resultados) {
+  const jugadores = new Set();
+  resultados.forEach(r => {
+    jugadores.add(r.primero);
+    jugadores.add(r.segundo);
+    jugadores.add(r.tercero);
+  });
+
+  const fechas = resultados.map(r => r.fecha);
+  const posiciones = {};
+
+  jugadores.forEach(j => {
+    posiciones[j] = fechas.map((_, i) => null); // posición por día
+  });
+
+  resultados.forEach((r, i) => {
+    const ranking = [r.primero, r.segundo, r.tercero];
+    ranking.forEach((jugador, idx) => {
+      posiciones[jugador][i] = idx + 1;
+    });
+    // Los que no jugaron ese día reciben "sin posición" (convertimos a N+1)
+    jugadores.forEach(j => {
+      if (posiciones[j][i] === null) {
+        posiciones[j][i] = ranking.length + 1;
+      }
+    });
+  });
+
+  return { posiciones, fechas };
+}
+
+function renderSelectorDeJugadores(jugadores, posiciones, fechas) {
+  const contenedor = document.getElementById("jugadoresSelector");
+  contenedor.innerHTML = "";
+  const seleccionados = new Set();
+
+  jugadores.forEach(j => {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = j;
+    checkbox.id = `chk-${j}`;
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) {
+        seleccionados.add(j);
+      } else {
+        seleccionados.delete(j);
+      }
+      if (seleccionados.size <= 5) {
+        renderTrazabilidad([...seleccionados], posiciones, fechas);
+      } else {
+        checkbox.checked = false;
+        seleccionados.delete(j);
+        alert("Máximo 5 jugadores a la vez.");
+      }
+    });
+
+    const label = document.createElement("label");
+    label.htmlFor = `chk-${j}`;
+    label.innerText = j;
+
+    contenedor.appendChild(checkbox);
+    contenedor.appendChild(label);
+    contenedor.appendChild(document.createTextNode(" "));
+  });
+}
+
