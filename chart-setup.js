@@ -19,15 +19,11 @@ function renderGraficos(puntos) {
     }
   });
   
-  const { posiciones, fechas } = calcularPosicionesDiarias(copa.resultados);
-  const jugadores = Object.keys(posiciones);
-  renderSelectorDeJugadores(jugadores, posiciones, fechas);
-  
   function renderTrazabilidad(jugadores, posiciones, fechas) {
-  const ctx = document.getElementById("graficoTrazabilidad").getContext("2d");
-  if (window.trazabilidadChart) window.trazabilidadChart.destroy();
+    const ctx = document.getElementById("graficoTrazabilidad").getContext("2d");
+    if (window.trazabilidadChart) window.trazabilidadChart.destroy();
 
-  const datasets = jugadores.map((j, i) => ({
+    const datasets = jugadores.map((j, i) => ({
     label: j,
     data: posiciones[j],
     fill: false,
