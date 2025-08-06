@@ -10,7 +10,7 @@ const datos = {
       { fecha: "23/07", primero: "Vero", segundo: "Rodri", tercero: "Lucia" },
       { fecha: "24/07", primero: "Nahuel", segundo: "Fede", tercero: "Vero" },
       { fecha: "25/07", primero: "Michi", segundo: "Anton", tercero: "Moni" },
-      { fecha: "28/07", primero: "Anton", segundo: "Vero", tercero: " Moni" },
+      { fecha: "28/07", primero: "Anton", segundo: "Vero", tercero: "Moni" },
       { fecha: "29/07", primero: "Fede", segundo: "Rodri", tercero: "Alita" },
       { fecha: "30/07", primero: "Michi", segundo: "Rodri", tercero: "Moni" },
       { fecha: "31/07", primero: "Moni", segundo: "Alita", tercero: "Fede" },
