@@ -18,18 +18,51 @@ function renderGraficos(puntos) {
       }]
     }
   });
+  
+  const { posiciones, fechas } = calcularPosicionesDiarias(copa.resultados);
+  const jugadores = Object.keys(posiciones);
+  renderSelectorDeJugadores(jugadores, posiciones, fechas);
+  
+  function renderTrazabilidad(jugadores, posiciones, fechas) {
+  const ctx = document.getElementById("graficoTrazabilidad").getContext("2d");
+  if (window.trazabilidadChart) window.trazabilidadChart.destroy();
 
-  window.linea = new Chart(ctxLinea, {
+  const datasets = jugadores.map((j, i) => ({
+    label: j,
+    data: posiciones[j],
+    fill: false,
+    tension: 0.3,
+    borderColor: `hsl(${(i * 72) % 360}, 70%, 50%)`,
+    borderWidth: 2
+  }));
+
+  window.trazabilidadChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels,
-      datasets: [{
-        label: 'Puntos acumulados',
-        data: values,
-        fill: false,
-        borderColor: '#4f46e5',
-        tension: 0.1
-      }]
+      labels: fechas,
+      datasets
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          reverse: true,
+          title: {
+            display: true,
+            text: 'Posición (1 = mejor)'
+          },
+          ticks: {
+            precision: 0
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          position: 'top'
+        }
+      }
     }
   });
+}
+
 }
