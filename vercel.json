@@ -1,1 +1,3 @@
-// Archivo de ejemplo: vercel.json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
