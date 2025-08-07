@@ -81,3 +81,20 @@ h1 {
   100% { transform: scale(1); }
 }
 
+nav {
+  background-color: #333;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
