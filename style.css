@@ -22,17 +22,51 @@ table {
   width: 100%;
   margin-bottom: 20px;
   table-layout: auto;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-th, td {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
+th {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+td {
+  padding: 8px 10px;
   text-align: center;
 }
 
-canvas {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 20px auto;
+/* Colores alternos de fila */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Posiciones destacadas */
+tr:first-of-type td {
+  background-color: #ffd700;
+  font-weight: bold;
+}
+tr:nth-of-type(2) td {
+  background-color: #c0c0c0;
+  font-weight: bold;
+}
+tr:nth-of-type(3) td {
+  background-color: #cd7f32;
+  font-weight: bold;
+}
+
+/* Íconos simulados */
+.avatar {
+  display: inline-block;
+  background-color: #ddd;
+  color: #333;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 24px;
+  margin-right: 6px;
+  text-align: center;
 }
