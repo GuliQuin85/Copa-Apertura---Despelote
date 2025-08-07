@@ -29,3 +29,10 @@ th, td {
   border: 1px solid #ccc;
   text-align: center;
 }
+
+canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+}
