@@ -70,3 +70,14 @@ tr:nth-child(even) {
   margin-right: 6px;
   text-align: center;
 }
+
+h1 {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
