@@ -83,15 +83,11 @@ function renderCopa(nombre) {
   const copa = datos[nombre];
   const nombreAnterior = nombre === "Copa Apertura Agosto" ? "Pretemporada Julio" : null;
   const ranking = calcularRankingConDesempate(copa, nombreAnterior);
-  const rankingHTML = ranking.map((jugador, i) => {
+const rankingHTML = ranking.map((jugador, i) => {
   const avatar = `<span class="avatar">${jugador.nombre[0]}</span>`;
   return `<tr><td>${i + 1}</td><td>${avatar}${jugador.nombre}</td><td>${jugador.puntos}</td></tr>`;
-})
-  const avatar = `<span class="avatar">${nombre[0]}</span>`;
-  return `<tr><td>${i+1}</td><td>${avatar}${nombre}</td><td>${pts}</td></tr>`;
-})
+}).join("");
 
-    .join("");
   document.getElementById("ranking").innerHTML = `
     <h2>Ranking</h2>
     <table><tr><th>#</th><th>Nombre</th><th>Puntos</th></tr>${rankingHTML}</table>
