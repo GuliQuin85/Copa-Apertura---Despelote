@@ -56,7 +56,7 @@ function renderCopa(nombre) {
     <table><tr><th>Fecha</th><th>1º</th><th>2º</th><th>3º</th></tr>${resultadosHTML}</table>
   `;
   renderGraficos(ranking);
-  const { posiciones, fechas } = calcularPosicionesDiarias(copa.resultados);
+  const { posiciones, fechas } = calcularRankingPorDia(copa.resultados);
   const jugadores = Object.keys(posiciones);
   renderSelectorDeJugadores(jugadores, posiciones, fechas);
 }
@@ -70,35 +70,35 @@ document.getElementById("copaSelector").addEventListener("change", e => {
 
 renderCopa("Pretemporada Julio");
 
-function calcularPosicionesDiarias(resultados) {
-  const jugadores = new Set();
-  resultados.forEach(r => {
-    jugadores.add(r.primero);
-    jugadores.add(r.segundo);
-    jugadores.add(r.tercero);
-  });
-
+function calcularRankingPorDia(resultados) {
   const fechas = resultados.map(r => r.fecha);
-  const posiciones = {};
+  const puntosAcumulados = [];
+  const posicionesPorJugador = {};
 
-  jugadores.forEach(j => {
-    posiciones[j] = fechas.map((_, i) => null); // posición por día
-  });
+  resultados.forEach((_, i) => {
+    const parciales = resultados.slice(0, i + 1);
+    const puntos = calcularPuntos(parciales);
 
-  resultados.forEach((r, i) => {
-    const ranking = [r.primero, r.segundo, r.tercero];
-    ranking.forEach((jugador, idx) => {
-      posiciones[jugador][i] = idx + 1;
+    const rankingOrdenado = Object.entries(puntos)
+      .sort((a, b) => b[1] - a[1])
+      .map(([nombre]) => nombre);
+
+    rankingOrdenado.forEach((jugador, pos) => {
+      if (!posicionesPorJugador[jugador]) {
+        posicionesPorJugador[jugador] = [];
+      }
+      posicionesPorJugador[jugador][i] = pos + 1;
     });
-    // Los que no jugaron ese día reciben "sin posición" (convertimos a N+1)
-    jugadores.forEach(j => {
-      if (posiciones[j][i] === null) {
-        posiciones[j][i] = ranking.length + 1;
+
+    // Jugadores que aún no existían en este punto
+    Object.keys(posicionesPorJugador).forEach(j => {
+      if (posicionesPorJugador[j].length < i + 1) {
+        posicionesPorJugador[j][i] = rankingOrdenado.length + 1;
       }
     });
   });
 
-  return { posiciones, fechas };
+  return { posiciones: posicionesPorJugador, fechas };
 }
 
 function renderSelectorDeJugadores(jugadores, posiciones, fechas) {
