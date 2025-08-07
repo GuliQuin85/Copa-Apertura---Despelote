@@ -102,7 +102,8 @@ const rankingHTML = ranking.map((jugador, i) => {
   const puntosObj = Object.fromEntries(ranking.map(j => [j.nombre, j.puntos]));
   renderGraficos(puntosObj);
 
-  const { posiciones, fechas } = calcularRankingPorDia(copa.resultados);
+  const { posiciones, fechas } = calcularRankingPorDia(copa.resultados, nombre);
+
   const jugadores = Object.keys(posiciones);
   renderSelectorDeJugadores(jugadores, posiciones, fechas);
 }
@@ -126,17 +127,18 @@ function calcularPuntos(resultados) {
   return puntos;
 }
 
-function calcularRankingPorDia(resultados) {
+function calcularRankingPorDia(resultados, nombreCopaActual = "") {
   const fechas = resultados.map(r => r.fecha);
   const posicionesPorJugador = {};
   const jugadoresSet = new Set();
 
+  const nombreAnterior = nombreCopaActual === "Copa Apertura Agosto" ? "Pretemporada Julio" : null;
+
   resultados.forEach((_, i) => {
     const parciales = resultados.slice(0, i + 1);
-
-    // Convertir formato para usar en calcularRankingConDesempate
     const copaParcial = { resultados: parciales };
-    const rankingParcial = calcularRankingConDesempate(copaParcial);
+
+    const rankingParcial = calcularRankingConDesempate(copaParcial, nombreAnterior);
 
     rankingParcial.forEach((jugador, pos) => {
       jugadoresSet.add(jugador.nombre);
@@ -147,7 +149,7 @@ function calcularRankingPorDia(resultados) {
     });
   });
 
-  // Rellenar con posición baja para los que aún no aparecen en ciertas fechas
+  // Rellenar con posición baja para los que no estaban aún
   const totalFechas = fechas.length;
   const jugadores = Array.from(jugadoresSet);
   jugadores.forEach(j => {
