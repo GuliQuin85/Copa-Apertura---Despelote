@@ -42,7 +42,11 @@ function renderCopa(nombre) {
   const ranking = calcularPuntos(copa.resultados);
   const rankingHTML = Object.entries(ranking)
     .sort((a,b) => b[1]-a[1])
-    .map(([nombre, pts], i) => `<tr><td>${i+1}</td><td>${nombre}</td><td>${pts}</td></tr>`)
+    .map(([nombre, pts], i) => {
+  const avatar = `<span class="avatar">${nombre[0]}</span>`;
+  return `<tr><td>${i+1}</td><td>${avatar}${nombre}</td><td>${pts}</td></tr>`;
+})
+
     .join("");
   document.getElementById("ranking").innerHTML = `
     <h2>Ranking</h2>
