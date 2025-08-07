@@ -27,22 +27,66 @@ const datos = {
   }
 };
 
-function calcularPuntos(resultados) {
+function calcularRankingConDesempate(copaActual, nombreCopaAnterior = null) {
   const puntos = {};
+  const podios = {};
+  const jugadores = new Set();
+  const resultados = copaActual.resultados;
+
   resultados.forEach(r => {
+    [r.primero, r.segundo, r.tercero].forEach(j => jugadores.add(j));
+
     puntos[r.primero] = (puntos[r.primero] || 0) + 3;
     puntos[r.segundo] = (puntos[r.segundo] || 0) + 2;
     puntos[r.tercero] = (puntos[r.tercero] || 0) + 1;
+
+    podios[r.primero] = podios[r.primero] || { oro: 0, plata: 0, bronce: 0 };
+    podios[r.segundo] = podios[r.segundo] || { oro: 0, plata: 0, bronce: 0 };
+    podios[r.tercero] = podios[r.tercero] || { oro: 0, plata: 0, bronce: 0 };
+
+    podios[r.primero].oro++;
+    podios[r.segundo].plata++;
+    podios[r.tercero].bronce++;
   });
-  return puntos;
+
+  // Pre-ranking anterior para desempate final
+  const posicionesAnteriores = {};
+  if (nombreCopaAnterior && datos[nombreCopaAnterior]) {
+    const prev = calcularRankingConDesempate(datos[nombreCopaAnterior]);
+    prev.forEach((jugador, index) => {
+      posicionesAnteriores[jugador.nombre] = index + 1;
+    });
+  }
+
+  const ranking = Array.from(jugadores).map(nombre => ({
+    nombre,
+    puntos: puntos[nombre] || 0,
+    oro: podios[nombre]?.oro || 0,
+    plata: podios[nombre]?.plata || 0,
+    bronce: podios[nombre]?.bronce || 0,
+    rankingAnterior: posicionesAnteriores[nombre] || 99
+  }));
+
+  // Orden con múltiples niveles
+  ranking.sort((a, b) => {
+    if (b.puntos !== a.puntos) return b.puntos - a.puntos;
+    if (b.oro !== a.oro) return b.oro - a.oro;
+    if (b.plata !== a.plata) return b.plata - a.plata;
+    if (b.bronce !== a.bronce) return b.bronce - a.bronce;
+    return a.rankingAnterior - b.rankingAnterior;
+  });
+
+  return ranking;
 }
 
 function renderCopa(nombre) {
   const copa = datos[nombre];
-  const ranking = calcularPuntos(copa.resultados);
-  const rankingHTML = Object.entries(ranking)
-    .sort((a,b) => b[1]-a[1])
-    .map(([nombre, pts], i) => {
+  const nombreAnterior = nombre === "Copa Apertura Agosto" ? "Pretemporada Julio" : null;
+  const ranking = calcularRankingConDesempate(copa, nombreAnterior);
+  const rankingHTML = ranking.map((jugador, i) => {
+  const avatar = `<span class="avatar">${jugador.nombre[0]}</span>`;
+  return `<tr><td>${i + 1}</td><td>${avatar}${jugador.nombre}</td><td>${jugador.puntos}</td></tr>`;
+})
   const avatar = `<span class="avatar">${nombre[0]}</span>`;
   return `<tr><td>${i+1}</td><td>${avatar}${nombre}</td><td>${pts}</td></tr>`;
 })
