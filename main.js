@@ -99,7 +99,9 @@ const rankingHTML = ranking.map((jugador, i) => {
     <h2>Resultados por día</h2>
     <table><tr><th>Fecha</th><th>1º</th><th>2º</th><th>3º</th></tr>${resultadosHTML}</table>
   `;
-  renderGraficos(ranking);
+  const puntosObj = Object.fromEntries(ranking.map(j => [j.nombre, j.puntos]));
+  renderGraficos(puntosObj);
+
   const { posiciones, fechas } = calcularRankingPorDia(copa.resultados);
   const jugadores = Object.keys(posiciones);
   renderSelectorDeJugadores(jugadores, posiciones, fechas);
