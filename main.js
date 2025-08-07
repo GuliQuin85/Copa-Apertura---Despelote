@@ -128,30 +128,35 @@ function calcularPuntos(resultados) {
 
 function calcularRankingPorDia(resultados) {
   const fechas = resultados.map(r => r.fecha);
-  const puntosAcumulados = [];
   const posicionesPorJugador = {};
+  const jugadoresSet = new Set();
 
   resultados.forEach((_, i) => {
     const parciales = resultados.slice(0, i + 1);
-    const puntos = calcularPuntos(parciales);
 
-    const rankingOrdenado = Object.entries(puntos)
-      .sort((a, b) => b[1] - a[1])
-      .map(([nombre]) => nombre);
+    // Convertir formato para usar en calcularRankingConDesempate
+    const copaParcial = { resultados: parciales };
+    const rankingParcial = calcularRankingConDesempate(copaParcial);
 
-    rankingOrdenado.forEach((jugador, pos) => {
-      if (!posicionesPorJugador[jugador]) {
-        posicionesPorJugador[jugador] = [];
+    rankingParcial.forEach((jugador, pos) => {
+      jugadoresSet.add(jugador.nombre);
+      if (!posicionesPorJugador[jugador.nombre]) {
+        posicionesPorJugador[jugador.nombre] = [];
       }
-      posicionesPorJugador[jugador][i] = pos + 1;
+      posicionesPorJugador[jugador.nombre][i] = pos + 1;
     });
+  });
 
-    // Jugadores que aún no existían en este punto
-    Object.keys(posicionesPorJugador).forEach(j => {
-      if (posicionesPorJugador[j].length < i + 1) {
-        posicionesPorJugador[j][i] = rankingOrdenado.length + 1;
+  // Rellenar con posición baja para los que aún no aparecen en ciertas fechas
+  const totalFechas = fechas.length;
+  const jugadores = Array.from(jugadoresSet);
+  jugadores.forEach(j => {
+    const arr = posicionesPorJugador[j];
+    for (let i = 0; i < totalFechas; i++) {
+      if (arr[i] === undefined) {
+        arr[i] = jugadores.length + 1;
       }
-    });
+    }
   });
 
   return { posiciones: posicionesPorJugador, fechas };
