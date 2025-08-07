@@ -21,7 +21,8 @@ const datos = {
     resultados: [
       { fecha: "04/08", primero: "Anton", segundo: "Vero", tercero: "Michi" },
       { fecha: "05/08", primero: "Guli", segundo: "Anton", tercero: "Agus" },
-      { fecha: "06/08", primero: "Michi", segundo: "Guli", tercero: "Anton" }
+      { fecha: "06/08", primero: "Michi", segundo: "Guli", tercero: "Anton" },
+      { fecha: "07/08", primero: "Vero", segundo: "MatiQ", tercero: "Guli" }
     ]
   }
 };
