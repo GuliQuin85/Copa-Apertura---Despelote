@@ -116,6 +116,16 @@ document.getElementById("copaSelector").addEventListener("change", e => {
 
 renderCopa("Pretemporada Julio");
 
+function calcularPuntos(resultados) {
+  const puntos = {};
+  resultados.forEach(r => {
+    puntos[r.primero] = (puntos[r.primero] || 0) + 3;
+    puntos[r.segundo] = (puntos[r.segundo] || 0) + 2;
+    puntos[r.tercero] = (puntos[r.tercero] || 0) + 1;
+  });
+  return puntos;
+}
+
 function calcularRankingPorDia(resultados) {
   const fechas = resultados.map(r => r.fecha);
   const puntosAcumulados = [];
