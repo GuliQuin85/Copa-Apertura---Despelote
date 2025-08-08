@@ -125,3 +125,17 @@ nav a.activo {
   display: block;
   margin: 20px auto;
 }
+
+details summary {
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+details[open] summary::before {
+  content: "▼ ";
+}
+
+details summary::before {
+  content: "▶ ";
+}
