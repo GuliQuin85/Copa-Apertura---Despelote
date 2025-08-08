@@ -115,7 +115,15 @@ document.getElementById("copaSelector").addEventListener("change", e => {
   renderCopa(e.target.value);
 });
 
-renderCopa("Pretemporada Julio");
+const bodyId = document.body.id;
+
+if (bodyId === "pagina-pretemporada") {
+  renderCopa("Pretemporada Julio");
+}
+
+if (bodyId === "pagina-agosto") {
+  renderCopa("Copa Apertura Agosto");
+}
 
 function calcularPuntos(resultados) {
   const puntos = {};
