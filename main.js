@@ -1,3 +1,13 @@
+const bodyId = document.body.id;
+
+if (bodyId === "pagina-pretemporada") {
+  renderCopa("Pretemporada Julio");
+}
+
+if (bodyId === "pagina-agosto") {
+  renderCopa("Copa Apertura Agosto");
+}
+
 const datos = {
   "Pretemporada Julio": {
     resultados: [
@@ -106,16 +116,6 @@ const rankingHTML = ranking.map((jugador, i) => {
 
   const jugadores = Object.keys(posiciones);
   renderSelectorDeJugadores(jugadores, posiciones, fechas);
-}
-
-const bodyId = document.body.id;
-
-if (bodyId === "pagina-pretemporada") {
-  renderCopa("Pretemporada Julio");
-}
-
-if (bodyId === "pagina-agosto") {
-  renderCopa("Copa Apertura Agosto");
 }
 
 function calcularPuntos(resultados) {
