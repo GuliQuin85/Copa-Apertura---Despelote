@@ -83,7 +83,7 @@ h1 {
 
 nav {
   background-color: #333;
-  padding: 10px;
+  padding: 12px 0;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -97,4 +97,5 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
+  color: #facc15;
 }
