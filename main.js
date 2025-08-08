@@ -106,14 +106,7 @@ const rankingHTML = ranking.map((jugador, i) => {
 
   const jugadores = Object.keys(posiciones);
   renderSelectorDeJugadores(jugadores, posiciones, fechas);
-}
-
-document.getElementById("copaSelector").innerHTML = Object.keys(datos)
-  .map(nombre => `<option value="${nombre}">${nombre}</option>`).join("");
-
-document.getElementById("copaSelector").addEventListener("change", e => {
-  renderCopa(e.target.value);
-});
+}});
 
 const bodyId = document.body.id;
 
