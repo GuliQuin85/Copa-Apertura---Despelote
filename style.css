@@ -123,3 +123,8 @@ nav a.activo {
   font-size: 18px;
   line-height: 1.4;
 }
+
+#graficoTorta {
+  display: block;
+  margin: 20px auto;
+}
