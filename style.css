@@ -104,3 +104,22 @@ nav a.activo {
   color: #facc15;
   text-decoration: underline;
 }
+
+.inicio-centrado {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  text-align: center;
+}
+
+.inicio-centrado h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.inicio-centrado p {
+  font-size: 18px;
+  line-height: 1.4;
+}
