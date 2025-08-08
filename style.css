@@ -99,3 +99,8 @@ nav a:hover {
   text-decoration: underline;
   color: #facc15;
 }
+
+nav a.activo {
+  color: #facc15;
+  text-decoration: underline;
+}
