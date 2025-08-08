@@ -106,7 +106,7 @@ const rankingHTML = ranking.map((jugador, i) => {
 
   const jugadores = Object.keys(posiciones);
   renderSelectorDeJugadores(jugadores, posiciones, fechas);
-}});
+}
 
 const bodyId = document.body.id;
 
