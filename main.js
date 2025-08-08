@@ -1,13 +1,3 @@
-const bodyId = document.body.id;
-
-if (bodyId === "pagina-pretemporada") {
-  renderCopa("Pretemporada Julio");
-}
-
-if (bodyId === "pagina-agosto") {
-  renderCopa("Copa Apertura Agosto");
-}
-
 const datos = {
   "Pretemporada Julio": {
     resultados: [
@@ -200,3 +190,12 @@ function renderSelectorDeJugadores(jugadores, posiciones, fechas) {
   });
 }
 
+const bodyId = document.body.id;
+
+if (bodyId === "pagina-pretemporada") {
+  renderCopa("Pretemporada Julio");
+}
+
+if (bodyId === "pagina-agosto") {
+  renderCopa("Copa Apertura Agosto");
+}
