@@ -96,8 +96,13 @@ const rankingHTML = ranking.map((jugador, i) => {
     `<tr><td>${r.fecha}</td><td>${r.primero}</td><td>${r.segundo}</td><td>${r.tercero}</td></tr>`
   ).join("");
   document.getElementById("resultados").innerHTML = `
-    <h2>Resultados por día</h2>
-    <table><tr><th>Fecha</th><th>1º</th><th>2º</th><th>3º</th></tr>${resultadosHTML}</table>
+  <details>
+    <summary><strong>Resultados por día</strong></summary>
+    <table>
+      <tr><th>Fecha</th><th>1º</th><th>2º</th><th>3º</th></tr>
+      ${resultadosHTML}
+    </table>
+  </details>
   `;
   const puntosObj = Object.fromEntries(ranking.map(j => [j.nombre, j.puntos]));
   renderGraficos(puntosObj);
