@@ -81,11 +81,47 @@ function calcularRankingConDesempate(copaActual, nombreCopaAnterior = null) {
   return ranking;
 }
 
+async function fetchResultadosDeFirebase(nombreCopa) {
+  const { getDocs, collection, query, where } = await import("https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js");
+  const db = window.firebaseDB;
+
+  // Trae todos los docs de la copa
+  const q = query(collection(db, 'resultados'), where('copa', '==', nombreCopa));
+  const snap = await getDocs(q);
+
+  // Mapeo a tu formato
+  const arr = [];
+  snap.forEach(d => {
+    const r = d.data();
+    arr.push({
+      fecha: r.fecha, primero: r.primero, segundo: r.segundo, tercero: r.tercero
+    });
+  });
+
+  // Ordenar por fecha dd/mm (string)
+  arr.sort((a,b) => {
+    const [da, ma] = a.fecha.split('/').map(Number);
+    const [db_, mb] = b.fecha.split('/').map(Number);
+    const A = new Date(2024, ma-1, da).getTime();
+    const B = new Date(2024, mb-1, db_).getTime();
+    return A - B;
+  });
+
+  return arr;
+}
+
 function renderCopa(nombre) {
-  const copa = datos[nombre];
+  const resultados = await fetchResultadosDeFirebase(nombre);
+  if (!resultados.length) {
+    document.getElementById("ranking").innerHTML = `<h2>Ranking</h2><p>Aún no hay resultados para <b>${nombre}</b>.</p>`;
+    document.getElementById("resultados").innerHTML = `
+      <details><summary><strong>Resultados por día</strong></summary><p>Sin registros.</p></details>`;
+    return;
+  }
+  const copa = { resultados };
   const nombreAnterior = nombre === "Copa Apertura Agosto" ? "Pretemporada Julio" : null;
   const ranking = calcularRankingConDesempate(copa, nombreAnterior);
-const rankingHTML = ranking.map((jugador, i) => {
+  const rankingHTML = ranking.map((jugador, i) => {
   const avatar = `<span class="avatar">${jugador.nombre[0]}</span>`;
   return `<tr><td>${i + 1}</td><td>${avatar}${jugador.nombre}</td><td>${jugador.puntos}</td></tr>`;
 }).join("");
