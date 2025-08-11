@@ -110,7 +110,7 @@ async function fetchResultadosDeFirebase(nombreCopa) {
   return arr;
 }
 
-function renderCopa(nombre) {
+async function renderCopa(nombre) {
   const resultados = await fetchResultadosDeFirebase(nombre);
   if (!resultados.length) {
     document.getElementById("ranking").innerHTML = `<h2>Ranking</h2><p>Aún no hay resultados para <b>${nombre}</b>.</p>`;
