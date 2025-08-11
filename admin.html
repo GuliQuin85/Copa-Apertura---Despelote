@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin | Copa Despelote</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="pretemporada.html">Pretemporada</a>
+    <a href="agosto.html">Copa Agosto</a>
+  </nav>
+
+  <main style="max-width:680px;margin:auto">
+    <h1>Panel de administración</h1>
+
+    <section id="loginBox">
+      <h2>Ingresar</h2>
+      <input id="email" type="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Contraseña" />
+      <button id="btnLogin">Entrar</button>
+      <p id="loginMsg" style="color:#c00"></p>
+    </section>
+
+    <section id="adminBox" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2>Cargar resultado del día</h2>
+        <button id="btnLogout">Salir</button>
+      </div>
+
+      <form id="formResultado">
+        <label>Copa
+          <input required id="copa" list="copas" placeholder="Copa Agosto" />
+          <datalist id="copas">
+            <option value="Pretemporada Julio"></option>
+            <option value="Copa Apertura Agosto"></option>
+          </datalist>
+        </label>
+
+        <label>Fecha (dd/mm)
+          <input required id="fecha" placeholder="04/08" />
+        </label>
+
+        <label>1º
+          <input required id="primero" />
+        </label>
+
+        <label>2º
+          <input required id="segundo" />
+        </label>
+
+        <label>3º
+          <input required id="tercero" />
+        </label>
+
+        <button type="submit">Guardar</button>
+        <p id="saveMsg" style="color:green"></p>
+      </form>
+
+      <details style="margin-top:20px">
+        <summary><strong>Últimos cargados</strong></summary>
+        <ul id="ultimos"></ul>
+      </details>
+    </section>
+  </main>
+
+  <!-- Firebase (app/auth/firestore) -->
+  <script type="module" src="firebase.js"></script>
+
+  <!-- Admin logic -->
+  <script type="module">
+    import {
+      signInWithEmailAndPassword, onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    import {
+      collection, addDoc, serverTimestamp, query, orderBy, limit, getDocs
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+    const auth = window.firebaseAuth;
+    const db   = window.firebaseDB;
+
+    const loginBox = document.getElementById('loginBox');
+    const adminBox = document.getElementById('adminBox');
+    const loginMsg = document.getElementById('loginMsg');
+    const saveMsg  = document.getElementById('saveMsg');
+
+    // Estado de sesión
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBox.style.display = 'none';
+        adminBox.style.display = 'block';
+        cargarUltimos();
+      } else {
+        loginBox.style.display = 'block';
+        adminBox.style.display = 'none';
+      }
+    });
+
+    // Login
+    document.getElementById('btnLogin').onclick = async () => {
+      loginMsg.textContent = '';
+      const email = (document.getElementById('email').value || '').trim();
+      const pass  = (document.getElementById('password').value || '').trim();
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (e) {
+        loginMsg.textContent = e.message;
+      }
+    };
+
+    // Logout
+    document.getElementById('btnLogout').onclick = () => signOut(auth);
+
+    // Guardar resultado
+    document.getElementById('formResultado').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      saveMsg.textContent = '';
+      const data = {
+        copa:     document.getElementById('copa').value.trim(),
+        fecha:    document.getElementById('fecha').value.trim(),
+        primero:  document.getElementById('primero').value.trim(),
+        segundo:  document.getElementById('segundo').value.trim(),
+        tercero:  document.getElementById('tercero').value.trim(),
+        createdAt: serverTimestamp()
+      };
+      try {
+        await addDoc(collection(db, 'resultados'), data);
+        saveMsg.textContent = 'Guardado ✔';
+        ev.target.reset();
+        cargarUltimos();
+      } catch (e) {
+        saveMsg.style.color = '#c00';
+        saveMsg.textContent = e.message;
+      }
+    });
+
+    // Últimos 10 resultados
+    async function cargarUltimos() {
+      const q = query(collection(db, 'resultados'), orderBy('createdAt','desc'), limit(10));
+      const snap = await getDocs(q);
+      const ul = document.getElementById('ultimos');
+      ul.innerHTML = '';
+      snap.forEach(d => {
+        const r = d.data();
+        const li = document.createElement('li');
+        li.textContent = `${r.copa} — ${r.fecha}: 1º ${r.primero}, 2º ${r.segundo}, 3º ${r.tercero}`;
+        ul.appendChild(li);
+      });
+    }
+  </script>
+</html>
